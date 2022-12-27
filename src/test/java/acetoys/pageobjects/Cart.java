@@ -2,6 +2,10 @@ package acetoys.pageobjects;
 
 import io.gatling.javaapi.core.ChainBuilder;
 
+import static session.UserSession.increaseItemsInBasketForSession;
+import static session.UserSession.increaseSessionBasketTotal;
+import static session.UserSession.decreaseItemsInBasketForSession;
+import static session.UserSession.decreaseSessionBasketTotal;
 import static io.gatling.javaapi.core.CoreDsl.*;
 import static io.gatling.javaapi.http.HttpDsl.*;
 
@@ -17,15 +21,21 @@ public class Cart {
   );
 
   public static ChainBuilder increaseQuantityInCart = 
-  exec(
-    http("Increase product quantity in cart - product id 19")
-      .get("/cart/add/19?cartPage=true")
+  exec(increaseItemsInBasketForSession)
+  .exec(increaseSessionBasketTotal)
+  .exec(
+    http("Increase product quantity in cart - product name : #{name}")
+      .get("/cart/add/#{id}?cartPage=true")
+     // .check(css("#grandTotal").isEL("$#{basketTotal}"))
   );
 
   public static ChainBuilder decreaseQuantityInCart = 
-  exec(
-      http("Decrease product quantity in cart - product id 19")
-        .get("/cart/subtract/19")
+  exec(decreaseItemsInBasketForSession)
+  .exec(decreaseSessionBasketTotal)
+  .exec(
+      http("Decrease product quantity in cart - product name : #{name}")
+        .get("/cart/subtract/#{id}")
+       // .check(css("#grandTotal").isEL("$#{basketTotal}"))
   );
 
   public static ChainBuilder checkout = 
