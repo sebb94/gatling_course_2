@@ -47,6 +47,8 @@ public class AceToysSimulation extends Simulation {
     .pause(2)
     .exec(Cart.increaseQuantityInCart)
     .pause(2)
+    .exec(Cart.increaseQuantityInCart)
+    .pause(2)
     .exec(Cart.decreaseQuantityInCart)
     .pause(2)
     .exec(Cart.checkout)
