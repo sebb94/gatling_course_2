@@ -7,6 +7,7 @@ import io.gatling.javaapi.http.*;
 import static io.gatling.javaapi.core.CoreDsl.*;
 import static io.gatling.javaapi.http.HttpDsl.*;
 
+import acetoys.pageobjects.Cart;
 import acetoys.pageobjects.Category;
 import acetoys.pageobjects.Products;
 import acetoys.pageobjects.StaticPages;
@@ -44,10 +45,7 @@ public class AceToysSimulation extends Simulation {
     .pause(2)
     .exec(Products.addProductToCart_Product5)
     .pause(2)
-    .exec(
-      http("View Cart")
-        .get("/cart/view")
-    )
+    .exec(Cart.cartView)
     .pause(2)
     .exec(
       http("Login user")
@@ -57,27 +55,12 @@ public class AceToysSimulation extends Simulation {
         .formParam("password", "pass")
         .check(css("#_csrf","content").saveAs("csrfTokenLoggedIn"))
     )
-    .exec( 
-        session -> {
-          System.out.println(session.getString("#{csrfTokenLoggedIn}"));
-          return session;
-        }
-    )
     .pause(2)
-    .exec(
-      http("Increase product quantity in cart - product id 19")
-        .get("/cart/add/19?cartPage=true")
-    )
+    .exec(Cart.increaseQuantityInCart)
     .pause(2)
-    .exec(
-      http("Increase product quantity in cart - product id 19")
-        .get("/cart/add/19?cartPage=true")
-    )
+    .exec(Cart.increaseQuantityInCart)
     .pause(2)
-    .exec(
-      http("Decrease product quantity in cart - product id 19")
-        .get("/cart/subtract/19")
-    )
+    .exec(Cart.decreaseQuantityInCart)
     .pause(2)
     .exec(
       http("Checkout")
