@@ -1,7 +1,6 @@
 package acetoys.pageobjects;
 
 import io.gatling.javaapi.core.ChainBuilder;
-import io.gatling.javaapi.core.Choice;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -35,7 +34,9 @@ public class Customer {
         .formParam("username", "#{userId}")
         .formParam("password", "#{password}")
         .check(css("#_csrf","content").saveAs("csrfTokenLoggedIn"))
-    );
+      ) 
+        .exec(session -> session.set("customerLoggedIn",true));
+    
 
   public static ChainBuilder logout = 
   exec(

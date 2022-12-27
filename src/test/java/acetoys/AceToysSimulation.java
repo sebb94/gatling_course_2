@@ -2,7 +2,7 @@ package acetoys;
 
 import io.gatling.javaapi.core.*;
 import io.gatling.javaapi.http.*;
-
+import session.UserSession;
 
 import static io.gatling.javaapi.core.CoreDsl.*;
 import static io.gatling.javaapi.http.HttpDsl.*;
@@ -24,6 +24,7 @@ public class AceToysSimulation extends Simulation {
   
 
   private ScenarioBuilder scn = scenario("AceToysSimulation")
+    .exec(UserSession.initSession)
     .exec(StaticPages.homepage)
     .pause(2)
     .exec(StaticPages.ourStory)
@@ -45,8 +46,6 @@ public class AceToysSimulation extends Simulation {
     .exec(Products.addProductToCart)
     .pause(2)
     .exec(Cart.cartView)
-    .pause(2)
-    .exec(Customer.login)
     .pause(2)
     .exec(Cart.increaseQuantityInCart)
     .pause(2)
