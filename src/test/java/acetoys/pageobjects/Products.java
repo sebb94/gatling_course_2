@@ -8,7 +8,7 @@ import static io.gatling.javaapi.http.HttpDsl.*;
 
 public class Products {
 
-  public static final FeederBuilder<Object> productFeeder = jsonFile("data/productDetails.json");
+  public static final FeederBuilder<Object> productFeeder = jsonFile("data/productDetails.json").random();
 
   public static ChainBuilder loadProductDetailsPage = 
   feed(productFeeder).
@@ -22,7 +22,6 @@ public class Products {
   exec(
     http("Add product to cart - Product name #{name}")
       .get("/cart/add/#{id}")
-      .check(substring("You have <span>1</span> products in your Basket"))
   );
 
 }
