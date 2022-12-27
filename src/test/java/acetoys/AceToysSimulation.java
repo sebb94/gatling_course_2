@@ -1,16 +1,13 @@
 package acetoys;
 
-import java.time.Duration;
-import java.util.*;
-
 import io.gatling.javaapi.core.*;
 import io.gatling.javaapi.http.*;
-import io.gatling.javaapi.jdbc.*;
+
 
 import static io.gatling.javaapi.core.CoreDsl.*;
 import static io.gatling.javaapi.http.HttpDsl.*;
-import static io.gatling.javaapi.jdbc.JdbcDsl.*;
 
+import acetoys.pageobjects.StaticPages;
 public class AceToysSimulation extends Simulation {
 
   private static final String DOMAIN = "acetoys.uk";
@@ -23,25 +20,11 @@ public class AceToysSimulation extends Simulation {
   
 
   private ScenarioBuilder scn = scenario("AceToysSimulation")
-    .exec(
-      http("Load Home Page")
-        .get("/")
-        .check(status().is(200))
-        .check(status().not(400))
-        .check(substring("We are a fictional online"))
-        .check(css("#_csrf","content").saveAs("csrfToken"))
-    )
+    .exec(StaticPages.homepage)
     .pause(2)
-    .exec(
-      http("Load Our Stroy")
-        .get("/our-story")
-        .check(substring("toy store was founded online in"))
-    )
+    .exec(StaticPages.ourStory)
     .pause(25)
-    .exec(
-      http("Load get in touch")
-        .get("/get-in-touch")
-    )
+    .exec(StaticPages.getInTouch)
     .pause(2)
     .exec(
       http("Load products list page - Category All products")
