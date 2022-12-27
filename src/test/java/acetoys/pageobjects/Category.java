@@ -1,24 +1,20 @@
 package acetoys.pageobjects;
 
 import io.gatling.javaapi.core.ChainBuilder;
+import io.gatling.javaapi.core.FeederBuilder;
 
 import static io.gatling.javaapi.core.CoreDsl.*;
 import static io.gatling.javaapi.http.HttpDsl.*;
 
 public class Category {
 
-  public static ChainBuilder productListByCatgory_AllProducts = 
-  exec(
-    http("Load products list page - Category: All products")
-      .get("/category/all")
-      .check(css("#CategoryName").is("All Products"))
-  );
+  public static final FeederBuilder<String> categoryFeader = csv("data/categoryDetails.csv").circular();
 
-  public static ChainBuilder productListByCatgory_BabiesToys = 
+  public static ChainBuilder productListByCatgory = 
   exec(
-    http("Load products list page - Category: Babies Toys ")
-      .get("/category/babies-toys")
-      .check(css("#CategoryName").is("Babies Toys"))
+    http("Load products list page - Category: #{categoryName}")
+      .get("/category/#{categorySlug}")
+      .check(css("#CategoryName").isEL("#{categoryName}"))
   );
 
   public static ChainBuilder loadSecondPageOfProducts = 
