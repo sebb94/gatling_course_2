@@ -26,11 +26,16 @@ public class AceToysSimulation extends Simulation {
     .exec(
       http("Load Home Page")
         .get("/")
+        .check(status().is(200))
+        .check(status().not(400))
+        .check(substring("We are a fictional online"))
+        .check(css("#_csrf","content").saveAs("csrfToken"))
     )
     .pause(2)
     .exec(
       http("Load Our Stroy")
         .get("/our-story")
+        .check(substring("toy store was founded online in"))
     )
     .pause(25)
     .exec(
@@ -86,9 +91,16 @@ public class AceToysSimulation extends Simulation {
     .exec(
       http("Login user")
         .post("/login")
-        .formParam("_csrf", "34a10518-5c98-4c5f-8e40-a35bee1a96e7")
+        .formParam("_csrf", "#{csrfToken}")
         .formParam("username", "user1")
         .formParam("password", "pass")
+        .check(css("#_csrf","content").saveAs("csrfTokenLoggedIn"))
+    )
+    .exec( 
+        session -> {
+          System.out.println(session.getString("#{csrfTokenLoggedIn}"));
+          return session;
+        }
     )
     .pause(2)
     .exec(
@@ -109,12 +121,13 @@ public class AceToysSimulation extends Simulation {
     .exec(
       http("Checkout")
         .get("/cart/checkout")
+        .check(substring("Your products are on their way to you now!!"))
     )
     .pause(2)
     .exec(
       http("Logout")
         .post("/logout")
-        .formParam("_csrf", "e9620bc1-096e-46fc-b8cc-c136306a1a8f")
+        .formParam("_csrf", "#{csrfTokenLoggedIn}")
     );
 
   {
