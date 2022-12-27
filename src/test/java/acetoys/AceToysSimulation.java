@@ -6,6 +6,7 @@ import io.gatling.javaapi.http.*;
 import static io.gatling.javaapi.core.CoreDsl.*;
 import static io.gatling.javaapi.http.HttpDsl.*;
 import acetoys.simulation.UserJourney;
+import acetoys.simulation.TestScenario;
 public class AceToysSimulation extends Simulation {
 
   private static final String DOMAIN = "acetoys.uk";
@@ -16,11 +17,10 @@ public class AceToysSimulation extends Simulation {
     .acceptEncodingHeader("gzip, deflate")
     .acceptLanguageHeader("pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7");
   
-
-  private ScenarioBuilder scn = scenario("AceToysSimulation")
-      .exec(UserJourney.browseStore);
-
-  {
-	  setUp(scn.injectOpen(atOnceUsers(1))).protocols(httpProtocol);
+    {
+      setUp(TestScenario.highPurchaseLoadTest
+                .injectOpen(atOnceUsers(10))).protocols(httpProtocol);
+    }
+    
   }
-}
+
