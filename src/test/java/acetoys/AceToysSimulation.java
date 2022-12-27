@@ -5,8 +5,8 @@ import io.gatling.javaapi.http.*;
 
 import static io.gatling.javaapi.core.CoreDsl.*;
 import static io.gatling.javaapi.http.HttpDsl.*;
-import acetoys.simulation.UserJourney;
-import acetoys.simulation.TestScenario;
+import acetoys.simulation.TestPopulation;
+
 public class AceToysSimulation extends Simulation {
 
   private static final String DOMAIN = "acetoys.uk";
@@ -18,9 +18,8 @@ public class AceToysSimulation extends Simulation {
     .acceptLanguageHeader("pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7");
   
     {
-      setUp(TestScenario.highPurchaseLoadTest
-                .injectOpen(atOnceUsers(10))).protocols(httpProtocol);
+      setUp(TestPopulation.complexInjection).protocols(httpProtocol);
     }
-    
+
   }
 
