@@ -9,6 +9,7 @@ import static io.gatling.javaapi.http.HttpDsl.*;
 
 import acetoys.pageobjects.Cart;
 import acetoys.pageobjects.Category;
+import acetoys.pageobjects.Customer;
 import acetoys.pageobjects.Products;
 import acetoys.pageobjects.StaticPages;
 public class AceToysSimulation extends Simulation {
@@ -47,14 +48,7 @@ public class AceToysSimulation extends Simulation {
     .pause(2)
     .exec(Cart.cartView)
     .pause(2)
-    .exec(
-      http("Login user")
-        .post("/login")
-        .formParam("_csrf", "#{csrfToken}")
-        .formParam("username", "user1")
-        .formParam("password", "pass")
-        .check(css("#_csrf","content").saveAs("csrfTokenLoggedIn"))
-    )
+    .exec(Customer.login)
     .pause(2)
     .exec(Cart.increaseQuantityInCart)
     .pause(2)
@@ -62,17 +56,9 @@ public class AceToysSimulation extends Simulation {
     .pause(2)
     .exec(Cart.decreaseQuantityInCart)
     .pause(2)
-    .exec(
-      http("Checkout")
-        .get("/cart/checkout")
-        .check(substring("Your products are on their way to you now!!"))
-    )
+    .exec(Cart.checkout)
     .pause(2)
-    .exec(
-      http("Logout")
-        .post("/logout")
-        .formParam("_csrf", "#{csrfTokenLoggedIn}")
-    );
+    .exec(Customer.logout);
 
   {
 	  setUp(scn.injectOpen(atOnceUsers(1))).protocols(httpProtocol);

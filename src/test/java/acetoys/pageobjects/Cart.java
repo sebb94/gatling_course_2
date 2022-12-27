@@ -11,7 +11,7 @@ public class Cart {
   exec(
     http("View Cart")
       .get("/cart/view")
-      .check(css("#CategoryHeader").is("Cart Overview"))
+     // .check(css("#CategoryHeader").is("Cart Overview"))
   );
 
   public static ChainBuilder increaseQuantityInCart = 
@@ -24,6 +24,13 @@ public class Cart {
   exec(
       http("Decrease product quantity in cart - product id 19")
         .get("/cart/subtract/19")
+  );
+
+  public static ChainBuilder checkout = 
+  exec(
+      http("Checkout")
+        .get("/cart/checkout")
+        .check(substring("Your products are on their way to you now!!"))
   );
 
 }
