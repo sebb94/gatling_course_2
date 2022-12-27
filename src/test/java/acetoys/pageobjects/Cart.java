@@ -2,10 +2,10 @@ package acetoys.pageobjects;
 
 import io.gatling.javaapi.core.ChainBuilder;
 
-import static session.UserSession.increaseItemsInBasketForSession;
-import static session.UserSession.increaseSessionBasketTotal;
-import static session.UserSession.decreaseItemsInBasketForSession;
-import static session.UserSession.decreaseSessionBasketTotal;
+import static acetoys.session.UserSession.decreaseItemsInBasketForSession;
+import static acetoys.session.UserSession.decreaseSessionBasketTotal;
+import static acetoys.session.UserSession.increaseItemsInBasketForSession;
+import static acetoys.session.UserSession.increaseSessionBasketTotal;
 import static io.gatling.javaapi.core.CoreDsl.*;
 import static io.gatling.javaapi.http.HttpDsl.*;
 

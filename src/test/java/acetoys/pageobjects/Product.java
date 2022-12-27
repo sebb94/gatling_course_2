@@ -3,13 +3,12 @@ package acetoys.pageobjects;
 import io.gatling.javaapi.core.ChainBuilder;
 import io.gatling.javaapi.core.FeederBuilder;
 
-import static session.UserSession.increaseSessionBasketTotal;
-import static session.UserSession.increaseItemsInBasketForSession;
-
+import static acetoys.session.UserSession.increaseItemsInBasketForSession;
+import static acetoys.session.UserSession.increaseSessionBasketTotal;
 import static io.gatling.javaapi.core.CoreDsl.*;
 import static io.gatling.javaapi.http.HttpDsl.*;
 
-public class Products {
+public class Product {
 
   public static final FeederBuilder<Object> productFeeder = jsonFile("data/productDetails.json").random();
 

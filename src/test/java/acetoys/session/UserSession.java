@@ -1,4 +1,4 @@
-package session;
+package acetoys.session;
 
 import io.gatling.javaapi.core.ChainBuilder;
 import java.text.DecimalFormat;

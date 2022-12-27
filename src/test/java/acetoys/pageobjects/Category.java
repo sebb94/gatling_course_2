@@ -11,7 +11,7 @@ public class Category {
 
   public static final FeederBuilder<String> categoryFeader = csv("data/categoryDetails.csv").random();
 
-  public static ChainBuilder productListByCatgory = 
+  public static ChainBuilder productListByCategory = 
   exec(
     http("Load products list page - Category: #{categoryName}")
       .get("/category/#{categorySlug}")
